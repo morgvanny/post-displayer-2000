@@ -1,7 +1,7 @@
 import React from "react";
 
 function Comment({ id, author, comment }) {
-  console.log(`rendering comment ${id}`);
+  console.log(`    rendering comment ${id}`);
 
   return (
     <div>
