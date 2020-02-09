@@ -42,9 +42,21 @@ export const initialData = {
         id: "comment5",
         author: "user3",
         comment: "comment 5"
+      },
+      comment7: {
+        id: "comment7",
+        author: "user3",
+        comment: "comment 7"
       }
     },
-    allIds: ["comment1", "comment2", "comment3", "commment4", "comment5"]
+    allIds: [
+      "comment1",
+      "comment2",
+      "comment3",
+      "commment4",
+      "comment5",
+      "comment7"
+    ]
   },
   users: {
     byId: {
@@ -69,7 +81,7 @@ export const post3 = {
   id: "post3",
   author: "user1",
   body: "post 3",
-  comments: []
+  comments: ["comment7"]
 };
 
 export const comment6 = {
