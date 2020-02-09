@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import "./App.css";
 import Post from "./Post";
-import { postList, post3 } from "./postList";
+import { postList, post3, comment6 } from "./postList";
 
 function Posts() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -62,11 +62,7 @@ const addComment = dispatch => {
       });
     },
     text: "Add a new comment",
-    payload: {
-      id: "comment6",
-      author: { username: "user3", name: "User 3" },
-      comment: "comment 6 on post 1"
-    }
+    comment: comment6
   };
 };
 
@@ -80,7 +76,7 @@ const removeComment = dispatch => {
         newFn: addComment
       });
     },
-    payload: "comment6",
+    comment: "comment6",
     text: "Remove that comment"
   };
 };

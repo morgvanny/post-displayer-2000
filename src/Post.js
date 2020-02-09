@@ -17,7 +17,7 @@ function Post({ id, author, body, comments, button }) {
       <h2>Comments for post: {id}</h2>
       <ul>{commentItems}</ul>
       {button ? (
-        <button onClick={() => button.fn(id, button.payload)}>
+        <button onClick={() => button.fn(id, button.comment)}>
           {button.text}
         </button>
       ) : null}
