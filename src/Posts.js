@@ -1,15 +1,13 @@
-import React, { useReducer } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import "./App.css";
 import Post from "./Post";
-import { postList, post3, comment6 } from "./postList";
+import { post3, comment6 } from "./postList";
 
-function Posts() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const button = state.button(dispatch);
-  const commentButton = state.commentButton(dispatch);
-
-  const postItems = state.posts.map(p => (
+function Posts({ posts, buttons, dispatch }) {
+  const button = buttons.button(dispatch);
+  const commentButton = buttons.commentButton(dispatch);
+  const postItems = posts.map(p => (
     <li key={p.id}>
       <Post {...p} button={p.id === "post1" ? commentButton : null} />
     </li>
@@ -25,7 +23,7 @@ function Posts() {
   );
 }
 
-const addPost = dispatch => {
+export const addPost = dispatch => {
   return {
     fn: () => {
       dispatch({
@@ -51,7 +49,7 @@ const removePost = dispatch => {
   };
 };
 
-const addComment = dispatch => {
+export const addComment = dispatch => {
   return {
     fn: (post, comment) => {
       dispatch({
@@ -81,66 +79,6 @@ const removeComment = dispatch => {
   };
 };
 
-const initialState = {
-  posts: postList,
-  button: addPost,
-  commentButton: addComment
-};
-
-function reducer(state, action) {
-  let idx;
-  let post;
-  switch (action.type) {
-    case "add_post":
-      return {
-        ...state,
-        posts: [...state.posts, action.post],
-        button: action.newFn
-      };
-    case "remove_post":
-      //incidentally removes all the post's comments
-      return {
-        ...state,
-        posts: [...state.posts.filter(p => p.id !== action.id)],
-        button: action.newFn
-      };
-    case "add_comment":
-      idx = state.posts.findIndex(p => p.id === action.post);
-      post = { ...state.posts[idx] };
-      const commentedPost = {
-        ...post,
-        comments: [...post.comments, action.comment]
-      };
-      return {
-        ...state,
-        posts: [
-          ...state.posts.slice(0, idx),
-          commentedPost,
-          ...state.posts.slice(idx + 1)
-        ],
-        commentButton: action.newFn
-      };
-    case "remove_comment":
-      idx = state.posts.findIndex(p => p.id === action.post);
-      post = { ...state.posts[idx] };
-      const unCommentedPost = {
-        ...post,
-        comments: post.comments.filter(c => c.id !== action.comment)
-      };
-      return {
-        ...state,
-        posts: [
-          ...state.posts.slice(0, idx),
-          unCommentedPost,
-          ...state.posts.slice(idx + 1)
-        ],
-        commentButton: action.newFn
-      };
-    default:
-      console.error("there's no reducer case for that");
-      console.dir(action);
-      return state;
-  }
-}
-
-export default Posts;
+export default connect(({ posts, buttons }) => {
+  return { posts, buttons };
+})(Posts);
