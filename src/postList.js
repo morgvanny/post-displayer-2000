@@ -44,7 +44,13 @@ export const post3 = {
   id: "post3",
   author: { username: "user1", name: "User 1" },
   body: "post 3",
-  comments: []
+  comments: [
+    {
+      id: "comment7",
+      author: { username: "user3", name: "User 3" },
+      comment: "comment 7 on post 2"
+    }
+  ]
 };
 
 export const comment6 = {
