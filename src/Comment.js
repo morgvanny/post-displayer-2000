@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 function Comment({ id, author, comment }) {
   console.log(`    rendering comment ${id}`);
@@ -12,4 +13,9 @@ function Comment({ id, author, comment }) {
   );
 }
 
-export default Comment;
+export default connect(({ commentsById, usersById }, props) => {
+  return {
+    ...commentsById[props.id],
+    author: usersById[commentsById[props.id].author]
+  };
+})(Comment);

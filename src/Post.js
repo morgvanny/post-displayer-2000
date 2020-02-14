@@ -1,11 +1,24 @@
 import React from "react";
+import { connect } from "react-redux";
 import Comment from "./Comment";
 
-function Post({ id, author, body, comments, authors, button }) {
+function Post({
+  id,
+  author,
+  body,
+  comments,
+  authors,
+  commentButton,
+  dispatch
+}) {
+  let button;
+  if (id === "post1") {
+    button = commentButton(dispatch);
+  }
   const commentItems = comments.map(c => {
     return (
-      <li key={c.id}>
-        <Comment {...c} author={authors.byId[c.author]} />
+      <li key={c}>
+        <Comment id={c} />
       </li>
     );
   });
@@ -25,4 +38,12 @@ function Post({ id, author, body, comments, authors, button }) {
   );
 }
 
-export default Post;
+export default connect(
+  ({ postsById, usersById, buttons: { commentButton } }, props) => {
+    return {
+      ...postsById[props.id],
+      author: usersById[postsById[props.id].author],
+      commentButton
+    };
+  }
+)(Post);
