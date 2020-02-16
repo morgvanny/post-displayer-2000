@@ -1,11 +1,20 @@
 import React from "react";
 import Comment from "./Comment";
+import CommentForm from "./CommentForm";
 
-function Post({ id, author, body, comments, button }) {
+function Post({
+  id,
+  author,
+  body,
+  comments,
+  action,
+  deletePost,
+  deleteComment
+}) {
   const commentItems = comments.map(c => {
     return (
       <li key={c.id}>
-        <Comment {...c} />
+        <Comment {...c} {...{ deleteComment }} post={id} />
       </li>
     );
   });
@@ -14,13 +23,10 @@ function Post({ id, author, body, comments, button }) {
     <div>
       <p>{body}</p>
       <p>posted by: {author.username}</p>
+      <button onClick={() => deletePost(id)}>Delete</button>
       <h2>Comments for post: {id}</h2>
       <ul>{commentItems}</ul>
-      {button ? (
-        <button onClick={() => button.fn(id, button.comment)}>
-          {button.text}
-        </button>
-      ) : null}
+      {action ? <CommentForm action={action} post={id} /> : null}
     </div>
   );
 }
